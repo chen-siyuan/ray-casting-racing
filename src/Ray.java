@@ -23,7 +23,23 @@ public class Ray {
     }
 
     public double distanceTo(Edge edge) {
-        return 0.;
+
+        if(!intersects(edge)) return -1.;
+
+        double l1 = Point.distance(origin, edge.getLeft());
+        double l2 = Point.distance(origin, edge.getRight());
+
+        double alpha = Angle.abs(new Angle(Point.angle(origin, edge.getLeft())).distanceTo(angle));
+        Angle beta = new Angle(Point.angle(origin, edge.getRight()));
+
+        if(alpha.compareTo(beta) < 1) {
+            gamma = angle.distanceTo(alpha);
+            delta = gngle
+        }
+
+
+
+
     }
 
 }

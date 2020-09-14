@@ -8,6 +8,11 @@ public class Point {
         return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
     }
 
+    public static Point weightedAverage(Point from, Point to, double w1, double w2) {
+        return new Point((from.getX() * w1 + to.getX() * w2) / (w1 + w2),
+                (from.getY() * w1 + to.getY() * w2) / (w1 + w2));
+    }
+
     private final double x;
     private final double y;
 

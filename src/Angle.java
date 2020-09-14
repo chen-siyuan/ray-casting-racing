@@ -31,4 +31,8 @@ public class Angle {
         return (distanceTo(other) < Math.PI) ? -1 : 1;
     }
 
+    public Angle differenceWith(Angle other) {
+        return new Angle(Math.min(distanceTo(other), other.distanceTo(this)));
+    }
+
 }
