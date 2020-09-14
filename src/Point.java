@@ -4,8 +4,8 @@ public class Point {
         return Math.sqrt(Math.pow(from.getX() - to.getX(), 2) + Math.pow(from.getY() - to.getY(), 2));
     }
 
-    public static double angle(Point from, Point to) {
-        return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
+    public static Angle angle(Point from, Point to) {
+        return new Angle(Math.atan2(to.getY() - from.getY(), to.getX() - from.getX()));
     }
 
     public static Point weightedAverage(Point from, Point to, double w1, double w2) {

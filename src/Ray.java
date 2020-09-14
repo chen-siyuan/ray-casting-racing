@@ -10,8 +10,8 @@ public class Ray {
 
     public boolean intersects(Edge edge) {
 
-        Angle alpha = new Angle(Point.angle(origin, edge.getLeft()));
-        Angle beta = new Angle(Point.angle(origin, edge.getRight()));
+        Angle alpha = Point.angle(origin, edge.getLeft());
+        Angle beta = Point.angle(origin, edge.getRight());
 
         if(alpha.opposes(beta)) return true;
         if(alpha.equals(beta)) return angle.equals(beta);
@@ -26,20 +26,19 @@ public class Ray {
 
         if(!intersects(edge)) return -1.;
 
-        double l1 = Point.distance(origin, edge.getLeft());
-        double l2 = Point.distance(origin, edge.getRight());
+        double x = Point.distance(origin, edge.getLeft());
+        double y = Point.distance(origin, edge.getRight());
 
-        double alpha = Angle.abs(new Angle(Point.angle(origin, edge.getLeft())).distanceTo(angle));
-        Angle beta = new Angle(Point.angle(origin, edge.getRight()));
+        Angle alpha = angle.differenceWith(Point.angle(origin, edge.getLeft()));
+        Angle beta = angle.differenceWith(Point.angle(origin, edge.getRight()));
 
-        if(alpha.compareTo(beta) < 1) {
-            gamma = angle.distanceTo(alpha);
-            delta = gngle
-        }
+        Point d = Point.weightedAverage(edge.getLeft(), edge.getRight(),
+                y * Math.sin(beta.getValue()), x * Math.sin(alpha.getValue()));
 
+        System.out.println(d.getX());
+        System.out.println(d.getY());
 
-
-
+        return Point.distance(origin, d);
     }
 
 }
