@@ -13,9 +13,10 @@ public class Main {
 
         System.out.println(Boolean.toString(ray.intersects(edge)));
 
-        Angle angle = new Angle(-0.01);
+        Angle a1 = new Angle(0);
+        Angle a3 = new Angle(6.28);
 
-        System.out.println(angle.getValue());
+        System.out.println(a1.compareTo(a3));
 
     }
 
