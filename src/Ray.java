@@ -24,13 +24,13 @@ public class Ray {
 
     public double distanceTo(Edge edge) {
 
-        if(!intersects(edge)) return -1.;
+        if(!intersects(edge)) return Double.MAX_VALUE;
 
         double x = Point.distance(position, edge.getLeft());
         double y = Point.distance(position, edge.getRight());
 
-        Angle alpha = direction.differenceWith(Point.angle(position, edge.getLeft()));
-        Angle beta = direction.differenceWith(Point.angle(position, edge.getRight()));
+        Angle alpha = direction.difference(Point.angle(position, edge.getLeft()));
+        Angle beta = direction.difference(Point.angle(position, edge.getRight()));
 
         Point d = Point.weightedAverage(edge.getLeft(), edge.getRight(),
                 y * Math.sin(beta.getValue()), x * Math.sin(alpha.getValue()));

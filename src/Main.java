@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -12,12 +16,17 @@ public class Main {
 
         // System.out.println(r.distanceTo(e));
 
-        Observer ob = new Observer(5, new Angle(Math.PI * (60. / 180.)));
+        Observer ob = new Observer(4, new Angle(Math.PI * (60. / 180.)));
         ob.setPosition(o);
         ob.setDirection(a);
-        ob.constructRays();
+        ob.construct();
 
-        for(int i=0; i < 5; i++) System.out.println(ob.getRay(i).distanceTo(e));
+        for(int i=0; i < 4; i++) System.out.println(ob.getRay(i).distanceTo(e));
+
+        Set<Edge> es = new HashSet<>();
+        es.add(e);
+
+        System.out.println(Arrays.toString(ob.detect(es)));
 
     }
 
