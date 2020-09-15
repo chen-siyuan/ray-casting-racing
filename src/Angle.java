@@ -14,25 +14,37 @@ public class Angle {
         return value;
     }
 
-    private double distanceTo(Angle other) {
-        return standardize(other.getValue() - value);
+    private Angle distanceTo(Angle other) {
+        return new Angle(other.getValue() - value);
     }
 
     public boolean equals(Angle other) {
-        return distanceTo(other) == 0;
+        return distanceTo(other).getValue() == 0;
     }
 
     public boolean opposes(Angle other) {
-        return distanceTo(other) == Math.PI;
+        return distanceTo(other).getValue() == Math.PI;
     }
 
     public int compareTo(Angle other) {
         if(equals(other) || opposes(other)) return 0;
-        return (distanceTo(other) < Math.PI) ? -1 : 1;
+        return (distanceTo(other).getValue() < Math.PI) ? -1 : 1;
     }
 
     public Angle differenceWith(Angle other) {
-        return new Angle(Math.min(distanceTo(other), other.distanceTo(this)));
+        return new Angle(Math.min(distanceTo(other).getValue(), other.distanceTo(this).getValue()));
+    }
+
+    public Angle add(Angle other) {
+        return new Angle(value + other.getValue());
+    }
+
+    public Angle subtract(Angle other) {
+        return new Angle(value - other.getValue());
+    }
+
+    public Angle scale(double ratio) {
+        return new Angle(value * ratio);
     }
 
 }

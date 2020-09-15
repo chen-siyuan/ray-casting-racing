@@ -1,44 +1,41 @@
 public class Ray {
 
-    private final Point origin;
-    private final Angle angle;
+    private final Point position;
+    private final Angle direction;
 
-    public Ray(Point _origin, Angle _angle) {
-        origin = _origin;
-        angle = _angle;
+    public Ray(Point _position, Angle _direction) {
+        position = _position;
+        direction = _direction;
     }
 
     public boolean intersects(Edge edge) {
 
-        Angle alpha = Point.angle(origin, edge.getLeft());
-        Angle beta = Point.angle(origin, edge.getRight());
+        Angle alpha = Point.angle(position, edge.getLeft());
+        Angle beta = Point.angle(position, edge.getRight());
 
         if(alpha.opposes(beta)) return true;
-        if(alpha.equals(beta)) return angle.equals(beta);
-        if(angle.equals(alpha) || angle.equals(beta)) return true;
+        if(alpha.equals(beta)) return direction.equals(beta);
+        if(direction.equals(alpha) || direction.equals(beta)) return true;
 
         return alpha.compareTo(beta) < 0
-                ? alpha.compareTo(angle) < 0 && angle.compareTo(beta) < 0
-                : alpha.compareTo(angle) > 0 && angle.compareTo(beta) > 0;
+                ? alpha.compareTo(direction) < 0 && direction.compareTo(beta) < 0
+                : alpha.compareTo(direction) > 0 && direction.compareTo(beta) > 0;
     }
 
     public double distanceTo(Edge edge) {
 
         if(!intersects(edge)) return -1.;
 
-        double x = Point.distance(origin, edge.getLeft());
-        double y = Point.distance(origin, edge.getRight());
+        double x = Point.distance(position, edge.getLeft());
+        double y = Point.distance(position, edge.getRight());
 
-        Angle alpha = angle.differenceWith(Point.angle(origin, edge.getLeft()));
-        Angle beta = angle.differenceWith(Point.angle(origin, edge.getRight()));
+        Angle alpha = direction.differenceWith(Point.angle(position, edge.getLeft()));
+        Angle beta = direction.differenceWith(Point.angle(position, edge.getRight()));
 
         Point d = Point.weightedAverage(edge.getLeft(), edge.getRight(),
                 y * Math.sin(beta.getValue()), x * Math.sin(alpha.getValue()));
 
-        System.out.println(d.getX());
-        System.out.println(d.getY());
-
-        return Point.distance(origin, d);
+        return Point.distance(position, d);
     }
 
 }
