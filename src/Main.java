@@ -1,7 +1,11 @@
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
+
+    public static final int PANEL_WIDTH = 600;
+    public static final int PANEL_HEIGHT = 500;
 
     public static Set<Edge> drawPolygon(Point... points) {
         Set<Edge> res = new HashSet<>();
@@ -51,6 +55,12 @@ public class Main {
         ob.construct();
 
         for(double distance: ob.detect(map)) System.out.println(String.format("%.3f", distance));
+
+        EventQueue.invokeLater(() -> {
+            Frame frame = new Frame();
+            frame.initUI();
+            frame.setVisible(true);
+        });
 
     }
 
