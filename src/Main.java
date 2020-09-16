@@ -6,6 +6,8 @@ public class Main {
 
     public static final int PANEL_WIDTH = 600;
     public static final int PANEL_HEIGHT = 500;
+    public static final int OBSERVER_NUMRAYS = 31;
+    public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (60. / 180.));
 
     public static Set<Edge> drawPolygon(Point... points) {
         Set<Edge> res = new HashSet<>();

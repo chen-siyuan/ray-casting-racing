@@ -16,4 +16,12 @@ public class Edge {
         return right;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if(!(object instanceof Edge)) return false;
+        Edge edge = (Edge) object;
+        return (left.equals(edge.getLeft()) && right.equals(edge.getRight()))
+                || (left.equals(edge.getRight()) && right.equals(edge.getLeft()));
+    }
+
 }

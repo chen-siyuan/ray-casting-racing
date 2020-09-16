@@ -29,4 +29,11 @@ public class Point {
         return y;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if(!(object instanceof Point)) return false;
+        Point point = (Point) object;
+        return x == point.getX() && y == point.getY();
+    }
+
 }

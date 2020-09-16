@@ -8,6 +8,14 @@ public class Ray {
         direction = _direction;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public Angle getDirection() {
+        return direction;
+    }
+
     public boolean intersects(Edge edge) {
 
         Angle alpha = Point.angle(position, edge.getLeft());
@@ -36,6 +44,13 @@ public class Ray {
                 y * Math.sin(beta.getValue()), x * Math.sin(alpha.getValue()));
 
         return Point.distance(position, d);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(!(object instanceof Ray)) return false;
+        Ray ray = (Ray) object;
+        return position.equals(ray.getPosition()) && direction.equals(ray.getDirection());
     }
 
 }

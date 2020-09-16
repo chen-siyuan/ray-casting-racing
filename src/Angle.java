@@ -43,4 +43,11 @@ public class Angle {
         return new Angle(value * ratio);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Angle)) return false;
+        Angle angle = (Angle) object;
+        return value == angle.getValue();
+    }
+
 }

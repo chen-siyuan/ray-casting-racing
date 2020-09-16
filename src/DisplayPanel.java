@@ -8,4 +8,7 @@ public class DisplayPanel extends JPanel {
         setBackground(new Color(53, 69, 53));
     }
 
+    // TODO: 9/16/20 distance-to-height function 
+    // TODO: 9/16/20 bar graph display 
+
 }
