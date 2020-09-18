@@ -43,6 +43,14 @@ public class Angle {
         return new Angle(value * ratio);
     }
 
+    public double sin() {
+        return Math.sin(value);
+    }
+
+    public double cos() {
+        return Math.cos(value);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Angle)) return false;

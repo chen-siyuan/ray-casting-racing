@@ -4,10 +4,13 @@ import java.util.Set;
 
 public class Main {
 
+    public static final int FRAME_RATE = 10;
     public static final int PANEL_WIDTH = 600;
     public static final int PANEL_HEIGHT = 400;
-    public static final int OBSERVER_RAYS = 121;
-    public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (60. / 180.));
+    public static final int OBSERVER_RAYS = 241;
+    public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
+    public static final double OBSERVER_MOVING_SPEED = 1.;
+    public static final double OBSERVER_TURNING_SPEED = Math.PI * (30. / 180.);
     public static final Double VIEW_MAX = 400.;
     public static final Double VIEW_FOCAL = 0.5;
 
@@ -62,8 +65,8 @@ public class Main {
             Frame frame = new Frame();
 
             frame.getMap().addAll(map2());
-            frame.getObserver().setPosition(new Point(2.4, 1.3));
-            frame.getObserver().setDirection(new Angle(Math.PI * (30. / 180.)));
+            frame.getObserver().setPosition(new Point(0, 0));
+            frame.getObserver().setDirection(new Angle(Math.PI * (0. / 180.)));
 
             frame.initUI();
             frame.setVisible(true);

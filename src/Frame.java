@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,15 @@ public class Frame extends JFrame implements Runnable {
     private final ControlPanel controlPanel;
     private final Set<Edge> map;
     private final Observer observer;
+
+    private boolean forward;        // W
+    private boolean backward;       // S
+    private boolean left;           // A
+    private boolean right;          // D
+    private boolean anticlockwise;  // LEFT_ARROW
+    private boolean clockwise;      // RIGHT_ARROW
+
+    // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
 
     public Frame() {
 
@@ -62,6 +72,60 @@ public class Frame extends JFrame implements Runnable {
         pack();
         setLocationRelativeTo(null);
 
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch(e.getExtendedKeyCode()) {
+                    case KeyEvent.VK_W:
+                        forward = true;
+                        break;
+                    case KeyEvent.VK_S:
+                        backward = true;
+                        break;
+                    case KeyEvent.VK_A:
+                        left = true;
+                        break;
+                    case KeyEvent.VK_D:
+                        right = true;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        anticlockwise = true;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        clockwise = true;
+                        break;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                switch(e.getExtendedKeyCode()) {
+                    case KeyEvent.VK_W:
+                        forward = false;
+                        break;
+                    case KeyEvent.VK_S:
+                        backward = false;
+                        break;
+                    case KeyEvent.VK_A:
+                        left = false;
+                        break;
+                    case KeyEvent.VK_D:
+                        right = false;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        anticlockwise = false;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        clockwise = false;
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -75,9 +139,25 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
-            // TODO: 9/17/20 update observer info
+            Point position = observer.getPosition();
+            Angle direction = observer.getDirection();
 
-            observer.setDirection(observer.getDirection().add(new Angle(Math.PI * (1. / 180.))));
+            if(forward != backward) {
+                double factor = Main.OBSERVER_MOVING_SPEED / Main.FRAME_RATE * (forward ? 1 : -1);
+                observer.setPosition(new Point(position.getX() + direction.cos() * factor, position.getY() + direction.sin() * factor));
+            }
+
+            position = observer.getPosition();
+
+            if(left != right) {
+                double factor = Main.OBSERVER_MOVING_SPEED / Main.FRAME_RATE * (left ? 1 : -1);
+                observer.setPosition(new Point(position.getX() + direction.sin() * factor, position.getY() + -direction.cos() * factor));
+            }
+
+            if(anticlockwise != clockwise) {
+                Angle increment = new Angle(Main.OBSERVER_TURNING_SPEED / Main.FRAME_RATE * (anticlockwise ? -1 : 1));
+                observer.setDirection(direction.add(increment));
+            }
 
             // TODO: 9/17/20 edit map (add/remove edges)
 
@@ -87,7 +167,7 @@ public class Frame extends JFrame implements Runnable {
             visionPanel.repaint();
 
             try {
-                Thread.sleep(100);
+                Thread.sleep((int)Math.round(1000. / Main.FRAME_RATE));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
