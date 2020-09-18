@@ -3,12 +3,12 @@ import java.awt.*;
 
 public class Frame extends JFrame {
 
-    private final ControlPanel controlPanel;
-    private final DisplayPanel displayPanel;
+    private final MapPanel mapPanel;
+    private final ViewPanel viewPanel;
 
     public Frame() {
-        controlPanel = new ControlPanel();
-        displayPanel = new DisplayPanel();
+        mapPanel = new MapPanel();
+        viewPanel = new ViewPanel();
     }
 
     public void initUI() {
@@ -27,9 +27,9 @@ public class Frame extends JFrame {
         gbc.gridy = 0;
 
         gbc.gridx = 0;
-        add(controlPanel);
+        add(mapPanel);
         gbc.gridx = 1;
-        add(displayPanel);
+        add(viewPanel);
 
         pack();
 

@@ -4,17 +4,17 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ControlPanel extends JPanel {
+public class MapPanel extends JPanel {
 
     private final Set<Edge> map;
     private final Observer ob;
 
-    public ControlPanel() {
+    public MapPanel() {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
         setBackground(new Color(224, 194, 163));
 
         map = new HashSet<>();
-        ob = new Observer(Main.OBSERVER_NUMRAYS, Main.OBSERVER_SPAN);
+        ob = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
     }
 
     public void addEdge(Edge edge) {

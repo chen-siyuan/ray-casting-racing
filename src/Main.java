@@ -6,18 +6,23 @@ public class Main {
 
     public static final int PANEL_WIDTH = 600;
     public static final int PANEL_HEIGHT = 500;
-    public static final int OBSERVER_NUMRAYS = 31;
+    public static final int OBSERVER_RAYS = 31;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (60. / 180.));
+    public static final Double VIEW_MAX = 200.;
+    public static final Double VIEW_FOCAL = 1.;
 
     public static Set<Edge> drawPolygon(Point... points) {
+
         Set<Edge> res = new HashSet<>();
         Point prev = null;
         Point head = null;
+
         for(Point point: points) {
             if(prev == null) head = point;
             else res.add(new Edge(prev, point));
             prev = point;
         }
+
         res.add(new Edge(prev, head));
         return res;
     }
@@ -39,6 +44,7 @@ public class Main {
     public static Set<Edge> map2() {
 
         Set<Edge> res = drawPolygon(new Point(10, 10), new Point(-10, 10), new Point(-10, -10), new Point(10, -10));
+
         res.addAll(drawPolygon(new Point(2.5, 2.5), new Point(2.5, 7.5), new Point(7.5, 7.5), new Point(7.5, 2.5)));
         res.addAll(drawPolygon(new Point(-2.5, 2.5), new Point(-2.5, 7.5), new Point(-7.5, 7.5), new Point(-7.5, 2.5)));
         res.addAll(drawPolygon(new Point(-2.5, -2.5), new Point(-2.5, -7.5), new Point(-7.5, -7.5), new Point(-7.5, -2.5)));
