@@ -14,7 +14,13 @@ As for now, intersections would mostly be between rays (with position and direct
 
 The user would be able to control the movements (forward/backward + turning) of the observer. The user would not be able to change the number of rays nor the span of vision of the observer.
 
-### Vision panel - vision display
+### Vision panel - distance-to-height transformation, vision display
+
+#### Distance-to-height transformation
+
+The input distances would be tranformed to heights through a semi-inverse function based on convex lens optics.
+
+#### Vision display
 
 The vision perceived by the observer would be displayed in form of a bar graph.
 
