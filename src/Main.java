@@ -5,7 +5,7 @@ import java.util.Set;
 public class Main {
 
     public static final int PANEL_WIDTH = 600;
-    public static final int PANEL_HEIGHT = 500;
+    public static final int PANEL_HEIGHT = 400;
     public static final int OBSERVER_RAYS = 31;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (60. / 180.));
     public static final Double VIEW_MAX = 200.;
@@ -57,17 +57,16 @@ public class Main {
 
         Set<Edge> map = map2();
 
-        Observer ob = new Observer(31, new Angle(Math.PI * (60. / 180.)));
-        ob.setPosition(new Point(1.41, 2.68));
-        ob.setDirection(new Angle(Math.PI * (118.64 / 180.)));
+        Observer ob = new Observer(61, new Angle(Math.PI * (60. / 180.)));
+        ob.setPosition(new Point(2, 2));
+        ob.setDirection(new Angle(Math.PI * (30. / 180.)));
         ob.construct();
-
-        for(double distance: ob.detect(map)) System.out.println(String.format("%.3f", distance));
 
         EventQueue.invokeLater(() -> {
             Frame frame = new Frame();
             frame.initUI();
             frame.setVisible(true);
+            frame.getViewPanel().setHeights(ob.detect(map));
         });
 
     }
