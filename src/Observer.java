@@ -13,6 +13,14 @@ public class Observer {
         span = _span;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public Angle getDirection() {
+        return direction;
+    }
+
     public void setPosition(Point _position) {
         position = _position;
     }
@@ -21,7 +29,7 @@ public class Observer {
         direction = _direction;
     }
 
-    public void construct() {
+    private void construct() {
         for(int i=0; i < rays.length; i++) rays[i] =
                 new Ray(position, direction.subtract(span.scale(1./2)).add(span.scale(1. * i / (rays.length - 1))));
     }
@@ -31,6 +39,7 @@ public class Observer {
         double[] res = new double[rays.length];
         for(int i=0; i < rays.length; i++) res[i] = Double.MAX_VALUE;
 
+        construct();
         for(Edge edge: edges) for(int i=0; i < rays.length; i++) res[i] = Math.min(res[i], rays[i].distanceTo(edge));
 
         return res;

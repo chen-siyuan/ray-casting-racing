@@ -6,10 +6,12 @@ public class Main {
 
     public static final int PANEL_WIDTH = 600;
     public static final int PANEL_HEIGHT = 400;
-    public static final int OBSERVER_RAYS = 31;
+    public static final int OBSERVER_RAYS = 121;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (60. / 180.));
-    public static final Double VIEW_MAX = 200.;
-    public static final Double VIEW_FOCAL = 1.;
+    public static final Double VIEW_MAX = 400.;
+    public static final Double VIEW_FOCAL = 0.5;
+
+    // TODO: 9/17/20 explore changing focal length 
 
     public static Set<Edge> drawPolygon(Point... points) {
 
@@ -55,18 +57,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Set<Edge> map = map2();
-
-        Observer ob = new Observer(61, new Angle(Math.PI * (60. / 180.)));
-        ob.setPosition(new Point(2, 2));
-        ob.setDirection(new Angle(Math.PI * (30. / 180.)));
-        ob.construct();
-
         EventQueue.invokeLater(() -> {
+
             Frame frame = new Frame();
+
+            frame.getMap().addAll(map2());
+            frame.getObserver().setPosition(new Point(2.4, 1.3));
+            frame.getObserver().setDirection(new Angle(Math.PI * (30. / 180.)));
+
             frame.initUI();
             frame.setVisible(true);
-            frame.getViewPanel().setHeights(ob.detect(map));
+
         });
 
     }

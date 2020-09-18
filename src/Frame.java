@@ -1,28 +1,34 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements Runnable {
 
     private final VisionPanel visionPanel;
     private final MapPanel mapPanel;
     private final ControlPanel controlPanel;
+    private final Set<Edge> map;
+    private final Observer observer;
 
     public Frame() {
+
         visionPanel = new VisionPanel();
         mapPanel = new MapPanel();
         controlPanel = new ControlPanel();
+
+        map = new HashSet<>();
+        observer = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
+
     }
 
-    public VisionPanel getViewPanel() {
-        return visionPanel;
+    public Set<Edge> getMap() {
+        return map;
     }
 
-    public MapPanel getMapPanel() {
-        return mapPanel;
-    }
-
-    public ControlPanel getControlPanel() {
-        return controlPanel;
+    public Observer getObserver() {
+        return observer;
     }
 
     public void initUI() {
@@ -55,6 +61,38 @@ public class Frame extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
+
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        new Thread(this).start();
+    }
+
+    @Override
+    public void run() {
+
+        while(!Thread.currentThread().isInterrupted()) {
+
+            // TODO: 9/17/20 update observer info
+
+            observer.setDirection(observer.getDirection().add(new Angle(Math.PI * (1. / 180.))));
+
+            // TODO: 9/17/20 edit map (add/remove edges)
+
+            // TODO: 9/17/20 paint map
+
+            visionPanel.setHeights(observer.detect(map));
+            visionPanel.repaint();
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
 
     }
 

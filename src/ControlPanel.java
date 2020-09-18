@@ -8,6 +8,6 @@ public class ControlPanel extends JPanel {
         setBackground(new Color(192, 192, 192));
     }
 
-    // TODO: 9/17/20 Add functionality to add and replace edges using Swing database features
+    // TODO: 9/17/20 add functionality to add and replace edges using Swing scroll bar?
 
 }
