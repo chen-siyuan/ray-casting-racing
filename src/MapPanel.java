@@ -9,6 +9,7 @@ public class MapPanel extends JPanel {
     private Observer observer;
 
     // TODO: 9/18/20 add in different options like visible
+    // TODO: 9/19/20 add zoom 
 
     public MapPanel() {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
