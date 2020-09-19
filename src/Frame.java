@@ -21,6 +21,7 @@ public class Frame extends JFrame implements Runnable {
     private boolean clockwise;      // RIGHT_ARROW
 
     // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
+    // TODO: 9/18/20 maybe replace left right arrow with j and l and use i and k for boosting and breaking
 
     public Frame() {
 
@@ -162,6 +163,10 @@ public class Frame extends JFrame implements Runnable {
             // TODO: 9/17/20 edit map (add/remove edges)
 
             // TODO: 9/17/20 paint map
+
+            mapPanel.setMap(map);
+            mapPanel.setObserver(observer);
+            mapPanel.repaint();
 
             visionPanel.setHeights(observer.detect(map));
             visionPanel.repaint();

@@ -34,26 +34,10 @@ public class VisionPanel extends JPanel {
         double x = -width;
 
         for(double height: heights)
-            g2.fillRect((int)Math.round(x += width), (Main.PANEL_HEIGHT - (int)Math.round(height)) / 2, (int)Math.round(width), (int)Math.round(height));
+            g2.fillRect((int)Math.round(x += width), (int)Math.round(0.5 * Main.PANEL_HEIGHT - 0.5 * height), (int)Math.round(width), (int)Math.round(height));
 
     }
 
-    /*
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        new Thread(this).start();
-    }
-
-    @Override
-    public void run() {
-        while(!Thread.currentThread().isInterrupted()) {
-            // setHeights(new double[]{new Random().nextDouble() * 10});
-            repaint();
-        }
-    }
-    */
-
-    // TODO: 9/17/20 edit drawbars(), looks kinda ugly.
+    // TODO: 9/17/20 edit drawbars(), looks kinda ugly
 
 }

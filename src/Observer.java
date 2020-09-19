@@ -13,6 +13,10 @@ public class Observer {
         span = _span;
     }
 
+    public Angle getSpan() {
+        return span;
+    }
+
     public Point getPosition() {
         return position;
     }
@@ -31,7 +35,7 @@ public class Observer {
 
     private void construct() {
         for(int i=0; i < rays.length; i++) rays[i] =
-                new Ray(position, direction.subtract(span.scale(1./2)).add(span.scale(1. * i / (rays.length - 1))));
+                new Ray(position, direction.subtract(span.scale(0.5)).add(span.scale(1. * i / (rays.length - 1))));
     }
 
     public double[] detect(Set<Edge> edges) {

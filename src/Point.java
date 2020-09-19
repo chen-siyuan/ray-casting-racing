@@ -13,6 +13,11 @@ public class Point {
                 (from.getY() * w1 + to.getY() * w2) / (w1 + w2));
     }
 
+    public static Point coordinateTransform(Point origin, Angle direction, Point point) {
+        return new Point(direction.cos() * (point.getX() - origin.getX()) + direction.sin() * (point.getY() - origin.getY()),
+                - direction.sin() * (point.getX() - origin.getX()) + direction.cos() * (point.getY() - origin.getY()));
+    }
+
     private final double x;
     private final double y;
 
@@ -36,4 +41,8 @@ public class Point {
         return x == point.getX() && y == point.getY();
     }
 
+    @Override
+    public String toString() {
+        return String.format("%.2f, %.2f", x, y);
+    }
 }

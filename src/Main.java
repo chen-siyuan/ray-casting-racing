@@ -11,10 +11,13 @@ public class Main {
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
     public static final double OBSERVER_MOVING_SPEED = 1.;
     public static final double OBSERVER_TURNING_SPEED = Math.PI * (30. / 180.);
-    public static final Double VIEW_MAX = 400.;
-    public static final Double VIEW_FOCAL = 0.5;
+    public static final double VIEW_MAX = 400.;
+    public static final double VIEW_FOCAL = 0.5;
+    public static final double MAP_OBSERVER_LENGTH = 25.;
+    public static final double MAP_MAP_SCALE = 25.;
 
     // TODO: 9/17/20 explore changing focal length 
+    // TODO: 9/18/20 create more maps
 
     public static Set<Edge> drawPolygon(Point... points) {
 
@@ -64,7 +67,7 @@ public class Main {
 
             Frame frame = new Frame();
 
-            frame.getMap().addAll(map2());
+            frame.getMap().addAll(map1());
             frame.getObserver().setPosition(new Point(0, 0));
             frame.getObserver().setDirection(new Angle(Math.PI * (0. / 180.)));
 
