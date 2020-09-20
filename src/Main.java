@@ -102,11 +102,15 @@ public class Main {
 
             Frame frame = new Frame();
 
+            frame.getMap().addAll(map2());
+
+            /*
             try {
                 frame.getMap().addAll(readMap("map3.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+             */
 
             frame.getObserver().setPosition(new Point(0, 0));
             frame.getObserver().setDirection(new Angle(Math.PI * (0. / 180.)));
