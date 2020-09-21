@@ -26,4 +26,8 @@ public class Edge {
                 || (left.equals(edge.getRight()) && right.equals(edge.getLeft()));
     }
 
+    @Override
+    public String toString() {
+        return String.format("Edge: (%s) - (%s)", left.toString(), right.toString());
+    }
 }

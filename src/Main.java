@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
@@ -96,7 +95,12 @@ public class Main {
         return res;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+
+        Vector v1 = new Vector(6.8, new Angle(Math.PI * (56.7 / 180.)));
+        Vector v2 = new Vector(4.7, new Angle(Math.PI * (110.4 / 180.)));
+
+        System.out.println(v1.add(v2));
 
         EventQueue.invokeLater(() -> {
 

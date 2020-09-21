@@ -58,4 +58,9 @@ public class Angle {
         return value == angle.getValue();
     }
 
+    @Override
+    public String toString() {
+        return String.format("Angle: %.2f = %.2f", value, 180. * value / Math.PI);
+    }
+
 }

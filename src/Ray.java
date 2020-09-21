@@ -53,4 +53,9 @@ public class Ray {
         return position.equals(ray.getPosition()) && direction.equals(ray.getDirection());
     }
 
+    @Override
+    public String toString() {
+        return String.format("Ray: (%s) towards (%s)", position.toString(), direction.toString());
+    }
+
 }
