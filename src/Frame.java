@@ -12,12 +12,13 @@ public class Frame extends JFrame implements Runnable {
     private final ControlPanel controlPanel;
     private final Set<Edge> map;
     private final Observer observer;
+    private final Velocity velocity;
 
     private boolean forward;        // W
     private boolean backward;       // S
     private boolean left;           // A
     private boolean right;          // D
-    private boolean anticlockwise;  // LEFT_ARROW
+    private boolean counterclockwise;  // LEFT_ARROW
     private boolean clockwise;      // RIGHT_ARROW
 
     // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
@@ -31,6 +32,7 @@ public class Frame extends JFrame implements Runnable {
 
         map = new HashSet<>();
         observer = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
+        velocity = new Velocity();
 
     }
 
@@ -94,7 +96,7 @@ public class Frame extends JFrame implements Runnable {
                         right = true;
                         break;
                     case KeyEvent.VK_LEFT:
-                        anticlockwise = true;
+                        counterclockwise = true;
                         break;
                     case KeyEvent.VK_RIGHT:
                         clockwise = true;
@@ -118,7 +120,7 @@ public class Frame extends JFrame implements Runnable {
                         right = false;
                         break;
                     case KeyEvent.VK_LEFT:
-                        anticlockwise = false;
+                        counterclockwise = false;
                         break;
                     case KeyEvent.VK_RIGHT:
                         clockwise = false;
@@ -140,6 +142,8 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
+            /*
+
             Point position = observer.getPosition();
             Angle direction = observer.getDirection();
 
@@ -159,6 +163,23 @@ public class Frame extends JFrame implements Runnable {
                 Angle increment = new Angle(Main.OBSERVER_TURNING_SPEED / Main.FRAME_RATE * (anticlockwise ? -1 : 1));
                 observer.setDirection(direction.add(increment));
             }
+
+             */
+
+            Point position = observer.getPosition();
+            Angle direction = observer.getDirection();
+
+            if(forward) velocity.forward(direction);
+            if(backward) velocity.backward(direction);
+            if(counterclockwise) velocity.counterclockwise(direction);
+            if(clockwise) velocity.clockwise(direction);
+
+            velocity.standardize();
+
+            observer.setPosition(new Point(position.getX() + velocity.getValue().getX(), position.getY() + velocity.getValue().getY()));
+            observer.setDirection(velocity.getValue().getDirection());
+
+            System.out.println(velocity);
 
             // TODO: 9/17/20 edit map (add/remove edges)
 

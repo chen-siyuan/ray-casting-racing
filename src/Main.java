@@ -19,6 +19,7 @@ public class Main {
     public static final double VIEW_FOCAL = 0.5;
     public static final double MAP_OBSERVER_LENGTH = 25.;
     public static final double MAP_MAP_SCALE = 25.;
+    public static final double VELOCITY_SPEED = 1.;
 
     // TODO: 9/17/20 explore changing focal length 
     // TODO: 9/18/20 create more maps
@@ -96,11 +97,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
-        Vector v1 = new Vector(6.8, new Angle(Math.PI * (56.7 / 180.)));
-        Vector v2 = new Vector(4.7, new Angle(Math.PI * (110.4 / 180.)));
-
-        System.out.println(v1.add(v2));
 
         EventQueue.invokeLater(() -> {
 

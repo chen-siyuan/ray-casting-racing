@@ -8,37 +8,35 @@ public class Velocity {
 
     public Velocity() {
         value = new Vector(0, new Angle(0));
-        boost = false;
-        left = false;
-        right = false;
     }
 
     private void add(Vector other) {
-
-    }
-
-    private void standardize() {
-
+        value = value.add(other);
     }
 
     public Vector getValue() {
         return value;
     }
 
-    public void forward(Angle direction) {
+    public void standardize() {
+        if(value.getLength() > Main.VELOCITY_SPEED)
+            value = value.scale(Main.VELOCITY_SPEED / value.getLength());
+    }
 
+    public void forward(Angle direction) {
+        add(new Vector(0.1, direction));
     }
 
     public void backward(Angle direction) {
-
+        add(new Vector(0.02, direction.add(new Angle(Math.PI * (180. / 180.)))));
     }
 
     public void counterclockwise(Angle direction) {
-
+        add(new Vector(0.05, direction.add(new Angle(Math.PI * (270. / 180.)))));
     }
 
     public void clockwise(Angle direction) {
-
+        add(new Vector(0.05, direction.add(new Angle(Math.PI * (90. / 180.)))));
     }
 
     public void boost() {
@@ -57,4 +55,8 @@ public class Velocity {
 
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }
