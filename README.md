@@ -12,7 +12,7 @@ As for now, intersections would mostly be between rays (with position and direct
 
 #### Observer control
 
-The user would be able to control the movements (forward/backward + turning) of the observer. The user would not be able to change the number of rays nor the span of vision of the observer.
+The user would be able to control the movements (forward/backward + turning) of the observer. The user would not be able to change the number of rays nor the span of vision of the observer. **NEED TO ADD MOTION SYSTEM**
 
 ### Vision panel - distance-to-height transformation, vision display
 
