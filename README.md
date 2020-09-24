@@ -30,5 +30,5 @@ The map (edges) and the range of vision (central ray + edge rays) of the observe
 
 ### Control panel - map edit
 
-The user would be able to add/remove (straight) edges in the map.
+The user would be able to add/remove (straight) edges in the map. **LONG TERM**
 
