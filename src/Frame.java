@@ -21,6 +21,11 @@ public class Frame extends JFrame implements Runnable {
     private boolean counterclockwise;  // LEFT_ARROW
     private boolean clockwise;      // RIGHT_ARROW
 
+    private boolean zoomout;        // MINUS
+    private boolean zoomin;         // EQUALS
+    private boolean mode;           // BACK_SLASH
+    private boolean reset;          // SPACE
+
     // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
     // TODO: 9/18/20 maybe replace left right arrow with j and l and use i and k for boosting and breaking
 
@@ -101,6 +106,18 @@ public class Frame extends JFrame implements Runnable {
                     case KeyEvent.VK_RIGHT:
                         clockwise = true;
                         break;
+                    case KeyEvent.VK_MINUS:
+                        zoomout = true;
+                        break;
+                    case KeyEvent.VK_EQUALS:
+                        zoomin = true;
+                        break;
+                    case KeyEvent.VK_BACK_SLASH:
+                        mode = true;
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        reset = true;
+                        break;
                 }
             }
 
@@ -125,6 +142,16 @@ public class Frame extends JFrame implements Runnable {
                     case KeyEvent.VK_RIGHT:
                         clockwise = false;
                         break;
+                    case KeyEvent.VK_MINUS:
+                        zoomout = false;
+                        break;
+                    case KeyEvent.VK_EQUALS:
+                        zoomin = false;
+                        break;
+                    case KeyEvent.VK_BACK_SLASH:
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        break;
                 }
             }
         });
@@ -142,8 +169,6 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
-            /*
-
             Point position = observer.getPosition();
             Angle direction = observer.getDirection();
 
@@ -159,12 +184,12 @@ public class Frame extends JFrame implements Runnable {
                 observer.setPosition(new Point(position.getX() + direction.sin() * factor, position.getY() + -direction.cos() * factor));
             }
 
-            if(anticlockwise != clockwise) {
-                Angle increment = new Angle(Main.OBSERVER_TURNING_SPEED / Main.FRAME_RATE * (anticlockwise ? -1 : 1));
+            if(counterclockwise != clockwise) {
+                Angle increment = new Angle(Main.OBSERVER_TURNING_SPEED / Main.FRAME_RATE * (counterclockwise ? -1 : 1));
                 observer.setDirection(direction.add(increment));
             }
 
-             */
+            /*
 
             Point position = observer.getPosition();
             Angle direction = observer.getDirection();
@@ -181,9 +206,18 @@ public class Frame extends JFrame implements Runnable {
 
             System.out.println(velocity);
 
+             */
+
             // TODO: 9/17/20 edit map (add/remove edges)
 
             // TODO: 9/17/20 paint map
+
+            if(zoomout != zoomin) mapPanel.setZoom(zoomout ? 0.8 : 1.25);
+            if(reset) mapPanel.setCamera();
+            if(mode) mapPanel.toggleMode();
+
+            reset = false;
+            mode = false;
 
             mapPanel.setMap(map);
             mapPanel.setObserver(observer);

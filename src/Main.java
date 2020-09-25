@@ -18,7 +18,6 @@ public class Main {
     public static final double VIEW_MAX = 400.;
     public static final double VIEW_FOCAL = 0.5;
     public static final double MAP_OBSERVER_LENGTH = 25.;
-    public static final double MAP_MAP_SCALE = 25.;
     public static final double VELOCITY_SPEED = 1.;
 
     // TODO: 9/17/20 explore changing focal length 

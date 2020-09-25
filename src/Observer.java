@@ -49,9 +49,9 @@ public class Observer {
         return res;
     }
 
-    // Test method
-    public Ray getRay(int index) {
-        return rays[index];
+    @Override
+    public String toString() {
+        return String.format("Observer: %s %s", position.toString(), direction.toString());
     }
 
 }

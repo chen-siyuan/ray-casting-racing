@@ -7,6 +7,10 @@ public class MapPanel extends JPanel {
 
     private Set<Edge> map;
     private Observer observer;
+    private Point cameraPosition;
+    private Angle cameraDirection;
+    private double scale;
+    private boolean mode;
 
     // TODO: 9/18/20 add in different options like visible
     // TODO: 9/19/20 add zoom 
@@ -14,6 +18,10 @@ public class MapPanel extends JPanel {
     public MapPanel() {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
         setBackground(new Color(224, 194, 163));
+        cameraPosition = new Point(0., 0.);
+        cameraDirection = new Angle(Math.PI * (0. / 180.));
+        scale = 25.;
+        mode = false;
     }
 
     public void setMap(Set<Edge> _map) {
@@ -22,6 +30,19 @@ public class MapPanel extends JPanel {
 
     public void setObserver(Observer _observer) {
         observer = _observer;
+    }
+
+    public void setZoom(double ratio) {
+        scale *= ratio;
+    }
+
+    public void toggleMode() {
+        mode = !mode;
+    }
+
+    public void setCamera() {
+        cameraPosition = observer.getPosition();
+        cameraDirection = observer.getDirection();
     }
 
     @Override
@@ -35,17 +56,33 @@ public class MapPanel extends JPanel {
     private void drawObserver(Graphics2D g2) {
 
         Angle span = observer.getSpan();
-
         g2.setStroke(new BasicStroke(3));
-        g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT),
-                (int)Math.round(0.5 * Main.PANEL_WIDTH),
-                (int)Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).getValue() * Main.MAP_OBSERVER_LENGTH));
-        g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT),
-                (int)Math.round(0.5 * Main.PANEL_WIDTH - span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
-                (int)Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
-        g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT),
-                (int)Math.round(0.5 * Main.PANEL_WIDTH + span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
-                (int)Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
+
+        Point position = mode ? cameraPosition : observer.getPosition();
+        Angle direction = mode ? cameraDirection : observer.getDirection();
+
+        Point center = Point.coordinateTransform(position, direction, observer.getPosition());
+        // Point mid = Point.coordinateTransform(position, direction, observer.getPosition().forward(observer.getDirection(), );
+        // Point left;
+        // Point right;
+
+        g2.drawLine(
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
+                (int) Math.round(0.5 * Main.PANEL_WIDTH),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).getValue() * Main.MAP_OBSERVER_LENGTH));
+
+        g2.drawLine(
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
+                (int) Math.round(0.5 * Main.PANEL_WIDTH - span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
+
+        g2.drawLine(
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
+                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
 
     }
 
@@ -53,18 +90,18 @@ public class MapPanel extends JPanel {
 
         AffineTransform at = g2.getTransform();
 
-        Point position = observer.getPosition();
-        Angle direction = observer.getDirection();
+        Point position = mode ? cameraPosition : observer.getPosition();
+        Angle direction = mode ? cameraDirection : observer.getDirection();
 
         g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
 
         for(Edge edge: map) {
             Point left = Point.coordinateTransform(position, direction, edge.getLeft());
             Point right = Point.coordinateTransform(position, direction, edge.getRight());
-            g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * Main.MAP_MAP_SCALE),
-                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * Main.MAP_MAP_SCALE),
-                    (int)Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * Main.MAP_MAP_SCALE),
-                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * Main.MAP_MAP_SCALE));
+            g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * scale),
+                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * scale),
+                    (int)Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * scale),
+                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * scale));
         }
 
         g2.setTransform(at);

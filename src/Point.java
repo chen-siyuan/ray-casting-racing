@@ -34,6 +34,10 @@ public class Point {
         return y;
     }
 
+    public Point forward(Angle direction, double distance) {
+        return new Point(x + direction.cos() * distance, y + direction.sin() * distance);
+    }
+
     @Override
     public boolean equals(Object object) {
         if(!(object instanceof Point)) return false;
