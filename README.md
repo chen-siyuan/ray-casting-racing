@@ -11,13 +11,13 @@ A Senior Year Computer Science I.S. Project.
 ## Controls
 
 |Key|Function|
-|---|---|
+|:---:|:---|
 |`W`|Move forward|
 |`S`|Move backward|
 |`A`|Move left|
 |`D`|Move right|
-|`&#8592`|Turn counterclockwise|
-|`&#8594`|Turn clockwise|
+|&#8592;|Turn counterclockwise|
+|&#8594;|Turn clockwise|
 
 
 ### Frame - intersection detection and distance calculation, observer control
