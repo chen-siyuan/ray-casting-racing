@@ -18,7 +18,7 @@ A Senior Year Computer Science I.S. Project.
 
 ### Map display
 
-**Fixed-camera mode and fixed-map mode** can be toggled.
+**Fixed-camera mode** and **fixed-map mode** can be toggled.
 
 ## Controls
 
