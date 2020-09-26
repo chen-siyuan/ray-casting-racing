@@ -53,36 +53,32 @@ public class MapPanel extends JPanel {
         drawMap(g2);
     }
 
+    private void drawLine(Graphics2D g2, Point left, Point right) {
+        g2.drawLine(
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * scale),
+                (int) Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * scale));
+    }
+
     private void drawObserver(Graphics2D g2) {
 
-        Angle span = observer.getSpan();
+        AffineTransform at = g2.getTransform();
+
+        g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
         g2.setStroke(new BasicStroke(3));
 
+        Angle span = observer.getSpan();
         Point position = mode ? cameraPosition : observer.getPosition();
-        Angle direction = mode ? cameraDirection : observer.getDirection();
-
+        Angle direction = mode ? cameraDirection: observer.getDirection();
         Point center = Point.coordinateTransform(position, direction, observer.getPosition());
-        // Point mid = Point.coordinateTransform(position, direction, observer.getPosition().forward(observer.getDirection(), );
-        // Point left;
-        // Point right;
 
-        g2.drawLine(
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
-                (int) Math.round(0.5 * Main.PANEL_WIDTH),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).getValue() * Main.MAP_OBSERVER_LENGTH));
+        drawLine(g2, center, Point.coordinateTransform(position, direction,
+                observer.getPosition().forward(observer.getDirection(), Main.MAP_OBSERVER_LENGTH / scale)));
+        drawLine(g2, center, Point.coordinateTransform(position, direction,
+                observer.getPosition().forward(observer.getDirection().subtract(span.scale(0.5)), Main.MAP_OBSERVER_LENGTH / scale)));
+        drawLine(g2, center, Point.coordinateTransform(position, direction,
+                observer.getPosition().forward(observer.getDirection().add(span.scale(0.5)), Main.MAP_OBSERVER_LENGTH / scale)));
 
-        g2.drawLine(
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
-                (int) Math.round(0.5 * Main.PANEL_WIDTH - span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
-
-        g2.drawLine(
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + center.getX()),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT + center.getY()),
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + span.scale(0.5).sin() * Main.MAP_OBSERVER_LENGTH),
-                (int) Math.round(0.5 * Main.PANEL_HEIGHT - span.scale(0.5).cos() * Main.MAP_OBSERVER_LENGTH));
+        g2.setTransform(at);
 
     }
 
@@ -95,14 +91,9 @@ public class MapPanel extends JPanel {
 
         g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
 
-        for(Edge edge: map) {
-            Point left = Point.coordinateTransform(position, direction, edge.getLeft());
-            Point right = Point.coordinateTransform(position, direction, edge.getRight());
-            g2.drawLine((int)Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * scale),
-                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * scale),
-                    (int)Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * scale),
-                    (int)Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * scale));
-        }
+        for(Edge edge: map) drawLine(g2,
+                Point.coordinateTransform(position, direction, edge.getLeft()),
+                Point.coordinateTransform(position, direction, edge.getRight()));
 
         g2.setTransform(at);
 
