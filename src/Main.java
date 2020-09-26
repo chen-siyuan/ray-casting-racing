@@ -39,32 +39,6 @@ public class Main {
         return res;
     }
 
-    public static Set<Edge> map1() {
-
-        Point a = new Point(3.66, 3.7);
-        Point b = new Point(1.32, 5.57);
-        Point c = new Point(-2.92, 3.75);
-        Point d = new Point(-1.42, -2.9);
-
-        Set<Edge> res = drawPolygon(a, b, c, d);
-        res.add(new Edge(a, c));
-        res.add(new Edge(b, d));
-
-        return res;
-    }
-
-    public static Set<Edge> map2() {
-
-        Set<Edge> res = drawPolygon(new Point(10, 10), new Point(-10, 10), new Point(-10, -10), new Point(10, -10));
-
-        res.addAll(drawPolygon(new Point(2.5, 2.5), new Point(2.5, 7.5), new Point(7.5, 7.5), new Point(7.5, 2.5)));
-        res.addAll(drawPolygon(new Point(-2.5, 2.5), new Point(-2.5, 7.5), new Point(-7.5, 7.5), new Point(-7.5, 2.5)));
-        res.addAll(drawPolygon(new Point(-2.5, -2.5), new Point(-2.5, -7.5), new Point(-7.5, -7.5), new Point(-7.5, -2.5)));
-        res.addAll(drawPolygon(new Point(2.5, -2.5), new Point(2.5, -7.5), new Point(7.5, -7.5), new Point(7.5, -2.5)));
-
-        return res;
-    }
-
     public static Set<Edge> readMap(String name) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader("map/" + name));
@@ -101,10 +75,8 @@ public class Main {
 
             Frame frame = new Frame();
 
-            // frame.getMap().addAll(map2());
-
             try {
-                frame.getMap().addAll(readMap("map3.txt"));
+                frame.getMap().addAll(readMap("pomegranate.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
