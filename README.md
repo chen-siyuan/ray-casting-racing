@@ -1,6 +1,6 @@
-# Tray-racing
+# Ray-racing
 
-A Senior Year Computer Science I.S. Project Based on Ray-tracing.
+A Senior Year Computer Science I.S. Project.
 
 ## Screenshots
 
