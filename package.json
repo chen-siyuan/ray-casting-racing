@@ -1,0 +1,22 @@
+{
+  "name": "ray-tracing",
+  "version": "1.0.1",
+  "description": "A Senior Year I.S. Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chen-siyuan/ray-tracing.git"
+  },
+  "author": "Siyuan \"Daniel\" Chen <daniel@apextone.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chen-siyuan/ray-tracing/issues"
+  },
+  "homepage": "https://github.com/chen-siyuan/ray-tracing#readme",
+  "publishConfig": {
+      "registry": "https://npm.pkg.github.com/"
+  }
+}
