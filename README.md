@@ -2,6 +2,10 @@
 
 A Senior Year Computer Science I.S. Project.
 
+## Screenshots
+
+![Screenshot](assets/screen.png)
+
 ## Features
 
 ### Basic components
