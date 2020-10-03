@@ -2,8 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Frame extends JFrame implements Runnable {
 
@@ -14,17 +17,9 @@ public class Frame extends JFrame implements Runnable {
     private final Observer observer;
     private final Body body;
 
-    private boolean forward;        // W
-    private boolean backward;       // S
-    private boolean left;           // A
-    private boolean right;          // D
-    private boolean counterclockwise;  // LEFT_ARROW
-    private boolean clockwise;      // RIGHT_ARROW
-
-    private boolean zoomout;        // MINUS
-    private boolean zoomin;         // EQUALS
-    private boolean mode;           // BACK_SLASH
-    private boolean reset;          // SPACE
+    private Map<String, Integer> codeToIndex;
+    private Map<Integer, Integer> keyToIndex;
+    private boolean[] status;
 
     // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
     // TODO: 9/18/20 maybe replace left right arrow with j and l and use i and k for boosting and breaking
@@ -39,6 +34,8 @@ public class Frame extends JFrame implements Runnable {
         observer = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
         body = new Body();
 
+        initStatus();
+
     }
 
     public Set<Edge> getMap() {
@@ -47,6 +44,31 @@ public class Frame extends JFrame implements Runnable {
 
     public Observer getObserver() {
         return observer;
+    }
+
+    private void initStatus() {
+
+        int n = 12;
+        String[] codes = new String[]{
+                "forward", "backward", "counterclockwise", "clockwise",
+                "boostForward", "boostBackward", "boostCounterclockwise", "boostClockwise",
+                "zoomOut", "zoomIn", "mode", "reset"
+        };
+        int[] keys = new int[]{
+                KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D,
+                KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,
+                KeyEvent.VK_MINUS, KeyEvent.VK_EQUALS, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_SPACE
+        };
+
+        codeToIndex = new HashMap<>();
+        keyToIndex = new HashMap<>();
+        status = new boolean[n];
+
+        IntStream.range(0, n).forEach(i -> {
+            codeToIndex.put(codes[i], i);
+            keyToIndex.put(keys[i], i);
+        });
+
     }
 
     public void initUI() {
@@ -87,72 +109,14 @@ public class Frame extends JFrame implements Runnable {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                switch(e.getExtendedKeyCode()) {
-                    case KeyEvent.VK_W:
-                        forward = true;
-                        break;
-                    case KeyEvent.VK_S:
-                        backward = true;
-                        break;
-                    case KeyEvent.VK_A:
-                        left = true;
-                        break;
-                    case KeyEvent.VK_D:
-                        right = true;
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        counterclockwise = true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        clockwise = true;
-                        break;
-                    case KeyEvent.VK_MINUS:
-                        zoomout = true;
-                        break;
-                    case KeyEvent.VK_EQUALS:
-                        zoomin = true;
-                        break;
-                    case KeyEvent.VK_BACK_SLASH:
-                        mode = true;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        reset = true;
-                        break;
-                }
+                Integer index;
+                if((index = keyToIndex.get(e.getExtendedKeyCode())) != null) status[index] = true;
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                switch(e.getExtendedKeyCode()) {
-                    case KeyEvent.VK_W:
-                        forward = false;
-                        break;
-                    case KeyEvent.VK_S:
-                        backward = false;
-                        break;
-                    case KeyEvent.VK_A:
-                        left = false;
-                        break;
-                    case KeyEvent.VK_D:
-                        right = false;
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        counterclockwise = false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        clockwise = false;
-                        break;
-                    case KeyEvent.VK_MINUS:
-                        zoomout = false;
-                        break;
-                    case KeyEvent.VK_EQUALS:
-                        zoomin = false;
-                        break;
-                    case KeyEvent.VK_BACK_SLASH:
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        break;
-                }
+                Integer index;
+                if((index = keyToIndex.get(e.getExtendedKeyCode())) != null) status[index] = false;
             }
         });
 
@@ -169,8 +133,10 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
-            if(forward != backward) body.updateGear(forward ? 2 : -1);
-            if(counterclockwise != clockwise) body.updateTurn(counterclockwise ? -1 : 1);
+            if(status[codeToIndex.get("forward")] != status[codeToIndex.get("backward")])
+                body.updateGear(status[codeToIndex.get("forward")] ? 2 : -1);
+            if(status[codeToIndex.get("counterclockwise")] != status[codeToIndex.get("clockwise")])
+                body.updateTurn(status[codeToIndex.get("counterclockwise")] ? -1 : 1);
 
             body.update();
 
@@ -182,12 +148,15 @@ public class Frame extends JFrame implements Runnable {
             // TODO: 9/17/20 edit map (add/remove edges)
             // TODO: 9/17/20 paint map
 
-            if(zoomout != zoomin) mapPanel.setZoom(zoomout ? 0.8 : 1.25);
-            if(reset) mapPanel.setCamera();
-            if(mode) mapPanel.toggleMode();
+            if(status[codeToIndex.get("zoomOut")] != status[codeToIndex.get("zoomIn")])
+                mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 0.8 : 1.25);
+            if(status[codeToIndex.get("reset")])
+                mapPanel.setCamera();
+            if(status[codeToIndex.get("mode")])
+                mapPanel.toggleMode();
 
-            reset = false;
-            mode = false;
+            status[codeToIndex.get("reset")] = false;
+            status[codeToIndex.get("mode")] = false;
 
             mapPanel.setMap(map);
             mapPanel.setObserver(observer);
@@ -204,6 +173,36 @@ public class Frame extends JFrame implements Runnable {
 
         }
 
+    }
+
+}
+
+class Entry {
+
+    private final String code;
+    private final int key;
+    private boolean status;
+
+    public Entry(String _code, int _key, boolean _status) {
+        code = _code;
+        key = _key;
+        status = _status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean _status) {
+        status = _status;
     }
 
 }

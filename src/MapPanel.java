@@ -12,9 +12,6 @@ public class MapPanel extends JPanel {
     private double scale;
     private boolean mode;
 
-    // TODO: 9/18/20 add in different options like visible
-    // TODO: 9/19/20 add zoom 
-
     public MapPanel() {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
         setBackground(new Color(224, 194, 163));
