@@ -23,7 +23,6 @@ public class Frame extends JFrame implements Runnable {
     private boolean[] status;
 
     // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
-    // TODO: 9/18/20 maybe replace left right arrow with j and l and use i and k for boosting and breaking
 
     public Frame() {
 
@@ -183,36 +182,6 @@ public class Frame extends JFrame implements Runnable {
 
         }
 
-    }
-
-}
-
-class Entry {
-
-    private final String code;
-    private final int key;
-    private boolean status;
-
-    public Entry(String _code, int _key, boolean _status) {
-        code = _code;
-        key = _key;
-        status = _status;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean _status) {
-        status = _status;
     }
 
 }
