@@ -12,7 +12,7 @@ public class Frame extends JFrame implements Runnable {
     private final ControlPanel controlPanel;
     private final Set<Edge> map;
     private final Observer observer;
-    private final Velocity velocity;
+    private final Body body;
 
     private boolean forward;        // W
     private boolean backward;       // S
@@ -37,7 +37,7 @@ public class Frame extends JFrame implements Runnable {
 
         map = new HashSet<>();
         observer = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
-        velocity = new Velocity();
+        body = new Body();
 
     }
 
@@ -169,47 +169,17 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
-            Point position = observer.getPosition();
-            Angle direction = observer.getDirection();
+            if(forward != backward) body.updateGear(forward ? 2 : -1);
+            if(counterclockwise != clockwise) body.updateTurn(counterclockwise ? -1 : 1);
 
-            if(forward != backward) {
-                double factor = Main.OBSERVER_MOVING_SPEED / Main.FRAME_RATE * (forward ? 1 : -1);
-                observer.setPosition(new Point(position.getX() + direction.cos() * factor, position.getY() + direction.sin() * factor));
-            }
+            body.update();
 
-            position = observer.getPosition();
+            observer.setPosition(body.getPosition());
+            observer.setDirection(body.getVelocity().getDirection());
 
-            if(left != right) {
-                double factor = Main.OBSERVER_MOVING_SPEED / Main.FRAME_RATE * (left ? 1 : -1);
-                observer.setPosition(new Point(position.getX() + direction.sin() * factor, position.getY() + -direction.cos() * factor));
-            }
-
-            if(counterclockwise != clockwise) {
-                Angle increment = new Angle(Main.OBSERVER_TURNING_SPEED / Main.FRAME_RATE * (counterclockwise ? -1 : 1));
-                observer.setDirection(direction.add(increment));
-            }
-
-            /*
-
-            Point position = observer.getPosition();
-            Angle direction = observer.getDirection();
-
-            if(forward) velocity.forward(direction);
-            if(backward) velocity.backward(direction);
-            if(counterclockwise) velocity.counterclockwise(direction);
-            if(clockwise) velocity.clockwise(direction);
-
-            velocity.standardize();
-
-            observer.setPosition(new Point(position.getX() + velocity.getValue().getX(), position.getY() + velocity.getValue().getY()));
-            observer.setDirection(velocity.getValue().getDirection());
-
-            System.out.println(velocity);
-
-             */
+            body.reset();
 
             // TODO: 9/17/20 edit map (add/remove edges)
-
             // TODO: 9/17/20 paint map
 
             if(zoomout != zoomin) mapPanel.setZoom(zoomout ? 0.8 : 1.25);
