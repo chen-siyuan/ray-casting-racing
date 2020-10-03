@@ -32,10 +32,12 @@ A Senior Year Computer Science I.S. Project.
 |:---:|:---|
 |`W`|Move forward|
 |`S`|Move backward|
-|`A`|Move left|
-|`D`|Move right|
-|&#8592;|Turn counterclockwise|
-|&#8594;|Turn clockwise|
+|`A`|Turn counterclockwise|
+|`D`|Turn clockwise|
+|&#8593;|Boost forward|
+|&#8595;|Boost backward|
+|&#8592;|Boost counterclockwise|
+|&#8594;|Boost clockwise|
 
 ### Map control
 
