@@ -38,6 +38,6 @@ public class VisionPanel extends JPanel {
 
     }
 
-    // TODO: 9/17/20 edit drawbars(), looks kinda ugly
+    // TODO: 10/3/20 color based on distance? 
 
 }

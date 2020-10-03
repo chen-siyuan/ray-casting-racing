@@ -3,8 +3,6 @@ public class Edge {
     private final Point left;
     private final Point right;
 
-    // TODO: 9/18/20 consider adding color? 
-
     public Edge(Point _left, Point _right) {
         left = _left;
         right = _right;

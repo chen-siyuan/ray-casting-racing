@@ -13,12 +13,9 @@ public class Main {
     public static final int PANEL_HEIGHT = 400;
     public static final int OBSERVER_RAYS = 241;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
-    public static final double OBSERVER_MOVING_SPEED = 1.;
-    public static final double OBSERVER_TURNING_SPEED = Math.PI * (30. / 180.);
     public static final double VIEW_MAX = 400.;
-    public static final double VIEW_FOCAL = 0.5;
+    public static final double VIEW_FOCAL = 2.5;
     public static final double MAP_OBSERVER_LENGTH = 25.;
-    public static final double VELOCITY_SPEED = 1.;
 
     // TODO: 9/17/20 explore changing focal length 
     // TODO: 9/18/20 create more maps
@@ -42,13 +39,12 @@ public class Main {
     public static Set<Edge> readMap(String name) throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader("map/" + name));
-        StringTokenizer st;
         String line;
         Set<Edge> res = new HashSet<>();
 
         while((line = br.readLine()) != null) {
 
-            st = new StringTokenizer(line);
+            StringTokenizer st = new StringTokenizer(line);
             int temp = st.countTokens();
             for (int i = 0; i < temp - 2; i++) st.nextToken();
 
@@ -76,7 +72,7 @@ public class Main {
             Frame frame = new Frame();
 
             try {
-                frame.getMap().addAll(readMap("pomegranate.txt"));
+                frame.getMap().addAll(readMap("rainbow.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

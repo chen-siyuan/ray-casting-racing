@@ -22,7 +22,7 @@ public class Frame extends JFrame implements Runnable {
     private Map<Integer, Integer> keyToIndex;
     private boolean[] status;
 
-    // TODO: 9/18/20 explore non-linear options for this; try implementing drifting?
+    // TODO: 10/3/20 take a look at drifting
 
     public Frame() {
 
@@ -153,9 +153,6 @@ public class Frame extends JFrame implements Runnable {
             observer.setDirection(body.getVelocity().getDirection());
 
             body.reset();
-
-            // TODO: 9/17/20 edit map (add/remove edges)
-            // TODO: 9/17/20 paint map
 
             if(status[codeToIndex.get("zoomOut")] != status[codeToIndex.get("zoomIn")])
                 mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 9. / 10. : 10. / 9.);

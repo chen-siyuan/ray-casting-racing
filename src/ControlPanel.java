@@ -8,6 +8,7 @@ public class ControlPanel extends JPanel {
         setBackground(new Color(192, 192, 192));
     }
 
-    // TODO: 9/17/20 add functionality to add and replace edges using Swing scroll bar?
+    // TODO: 10/3/20 add wheel and speed animation
+    // TODO: 10/3/20 add focus, map size, zoom info
 
 }
