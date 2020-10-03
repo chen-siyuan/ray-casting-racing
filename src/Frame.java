@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Frame extends JFrame implements Runnable {
@@ -133,10 +134,19 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
-            if(status[codeToIndex.get("forward")] != status[codeToIndex.get("backward")])
-                body.updateGear(status[codeToIndex.get("forward")] ? 2 : -1);
-            if(status[codeToIndex.get("counterclockwise")] != status[codeToIndex.get("clockwise")])
-                body.updateTurn(status[codeToIndex.get("counterclockwise")] ? -1 : 1);
+            AtomicInteger gear = new AtomicInteger();
+            if(status[codeToIndex.get("forward")])
+                gear.addAndGet(status[codeToIndex.get("boostForward")] ? 5 : 2);
+            if(status[codeToIndex.get("backward")])
+                gear.addAndGet(status[codeToIndex.get("boostBackward")] ? -2 : -1);
+            body.updateGear(gear.get());
+
+            AtomicInteger turn = new AtomicInteger();
+            if(status[codeToIndex.get("counterclockwise")])
+                turn.addAndGet(status[codeToIndex.get("boostCounterclockwise")] ? -2 : -1);
+            if(status[codeToIndex.get("clockwise")])
+                turn.addAndGet(status[codeToIndex.get("boostClockwise")] ? 2 : 1);
+            body.updateTurn(turn.get());
 
             body.update();
 
@@ -149,7 +159,7 @@ public class Frame extends JFrame implements Runnable {
             // TODO: 9/17/20 paint map
 
             if(status[codeToIndex.get("zoomOut")] != status[codeToIndex.get("zoomIn")])
-                mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 0.8 : 1.25);
+                mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 9. / 10. : 10. / 9.);
             if(status[codeToIndex.get("reset")])
                 mapPanel.setCamera();
             if(status[codeToIndex.get("mode")])
