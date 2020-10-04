@@ -51,4 +51,6 @@ public class Body {
         return String.format("Body: %.2f at (%s) with (%s) and (%s)", length, position.toString(), velocity.toString(), turn.toString());
     }
 
+    // TODO: 10/4/20 make turning gradual 
+
 }

@@ -14,7 +14,7 @@ public class Main {
     public static final int OBSERVER_RAYS = 241;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
     public static final double VIEW_MAX = 400.;
-    public static final double VIEW_FOCAL = 2.5;
+    public static final double VIEW_FOCAL = 0.5;
     public static final double MAP_OBSERVER_LENGTH = 25.;
 
     // TODO: 9/17/20 explore changing focal length 
@@ -72,7 +72,7 @@ public class Main {
             Frame frame = new Frame();
 
             try {
-                frame.getMap().addAll(readMap("rainbow.txt"));
+                frame.getMap().addAll(readMap("loops.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
