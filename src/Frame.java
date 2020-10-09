@@ -48,16 +48,18 @@ public class Frame extends JFrame implements Runnable {
 
     private void initStatus() {
 
-        int n = 12;
+        int n = 16;
         String[] codes = new String[]{
                 "forward", "backward", "counterclockwise", "clockwise",
                 "boostForward", "boostBackward", "boostCounterclockwise", "boostClockwise",
-                "zoomOut", "zoomIn", "mode", "reset"
+                "zoomOut", "zoomIn", "mode", "reset",
+                "focusOut", "focusIn", "mapOut", "mapIn"
         };
         int[] keys = new int[]{
                 KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D,
                 KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,
-                KeyEvent.VK_MINUS, KeyEvent.VK_EQUALS, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_SPACE
+                KeyEvent.VK_MINUS, KeyEvent.VK_EQUALS, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_SPACE,
+                KeyEvent.VK_OPEN_BRACKET, KeyEvent.VK_CLOSE_BRACKET, KeyEvent.VK_9, KeyEvent.VK_0
         };
 
         codeToIndex = new HashMap<>();
@@ -133,6 +135,8 @@ public class Frame extends JFrame implements Runnable {
 
         while(!Thread.currentThread().isInterrupted()) {
 
+            // VisionPanel
+
             AtomicInteger gear = new AtomicInteger();
             if(status[codeToIndex.get("forward")])
                 gear.addAndGet(status[codeToIndex.get("boostForward")] ? 5 : 2);
@@ -154,6 +158,14 @@ public class Frame extends JFrame implements Runnable {
 
             body.reset();
 
+            if(status[codeToIndex.get("focusOut")] != status[codeToIndex.get("focusIn")])
+                visionPanel.setFocal(status[codeToIndex.get("focusOut")] ? 4. / 5. : 5. / 4.);
+
+            visionPanel.setHeightsFromDistances(observer.detect(map));
+            visionPanel.repaint();
+
+            // MapPanel
+
             if(status[codeToIndex.get("zoomOut")] != status[codeToIndex.get("zoomIn")])
                 mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 9. / 10. : 10. / 9.);
             if(status[codeToIndex.get("reset")])
@@ -168,8 +180,6 @@ public class Frame extends JFrame implements Runnable {
             mapPanel.setObserver(observer);
             mapPanel.repaint();
 
-            visionPanel.setHeights(observer.detect(map));
-            visionPanel.repaint();
 
             try {
                 Thread.sleep((int)Math.round(1000. / Main.FRAME_RATE));

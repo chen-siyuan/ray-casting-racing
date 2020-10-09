@@ -4,18 +4,24 @@ import java.util.*;
 
 public class VisionPanel extends JPanel {
 
-    public static double[] transform(double[] distances) {
-        return Arrays.stream(distances).map(distance -> Main.VIEW_MAX * Main.VIEW_FOCAL / (distance + Main.VIEW_FOCAL)).toArray();
-    }
-
+    private double focal;
     private double[] heights;
 
     public VisionPanel() {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH * 2, Main.PANEL_HEIGHT));
         setBackground(new Color(53, 69, 53));
+        focal = 1.;
     }
 
-    public void setHeights(double[] distances) {
+    public void setFocal(double ratio) {
+        focal *= ratio;
+    }
+
+    private double[] transform(double[] distances) {
+        return Arrays.stream(distances).map(distance -> Main.VIEW_MAX * focal / (distance + focal)).toArray();
+    }
+
+    public void setHeightsFromDistances(double[] distances) {
         heights = transform(distances);
     }
 
