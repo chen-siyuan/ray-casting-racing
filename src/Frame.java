@@ -151,6 +151,9 @@ public class Frame extends JFrame implements Runnable {
                 turn.addAndGet(status[codeToIndex.get("boostClockwise")] ? 2 : 1);
             body.updateTurn(turn.get());
 
+            if(status[codeToIndex.get("mapOut")] != status[codeToIndex.get("mapIn")])
+                body.setScale(status[codeToIndex.get("mapOut")] ? 9. / 10. : 10. / 9.);
+
             body.update();
 
             observer.setPosition(body.getPosition());

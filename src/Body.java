@@ -5,6 +5,7 @@ public class Body {
     private Vector velocity;
     private Angle turn;
     private int gear;
+    private double scale;
 
     public Body() {
         length = 5.;
@@ -12,6 +13,7 @@ public class Body {
         velocity = new Vector(0, new Angle(Math.PI * 0. / 180.));
         turn = new Angle(Math.PI * 0. / 180.);
         gear = 0;
+        scale = 1.;
     }
 
     public Point getPosition() {
@@ -30,9 +32,16 @@ public class Body {
         gear = _gear;
     }
 
+    public void setScale(double ratio) {
+        scale *= ratio;
+        scale = Math.max(0.01, scale);
+        scale = Math.min(10. , scale);
+    }
+
     public void update() {
 
-        double speed = (velocity.getLength() + gear * 0.1) * 0.9;
+        double speed = (velocity.getLength() + gear * 0.1 * scale) * 0.9;
+
         Point headPosition = position.forward(velocity.getDirection(), length * 0.5).forward(velocity.getDirection().add(turn), speed);
         Point tailPosition = position.forward(velocity.getDirection(), length * -0.5).forward(velocity.getDirection(), speed);
 

@@ -70,7 +70,7 @@ public class Main {
             Frame frame = new Frame();
 
             try {
-                frame.getMap().addAll(readMap("loops.txt"));
+                frame.getMap().addAll(readMap("pomegranate.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
