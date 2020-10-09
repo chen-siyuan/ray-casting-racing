@@ -69,11 +69,11 @@ public class MapPanel extends JPanel {
         Point center = Point.coordinateTransform(position, direction, observer.getPosition());
 
         drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection(), Main.MAP_OBSERVER_LENGTH / scale)));
+                observer.getPosition().forward(observer.getDirection(), Main.CURSOR_SIZE / scale)));
         drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection().subtract(span.scale(0.5)), Main.MAP_OBSERVER_LENGTH / scale)));
+                observer.getPosition().forward(observer.getDirection().subtract(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
         drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection().add(span.scale(0.5)), Main.MAP_OBSERVER_LENGTH / scale)));
+                observer.getPosition().forward(observer.getDirection().add(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
 
         g2.setTransform(at);
 

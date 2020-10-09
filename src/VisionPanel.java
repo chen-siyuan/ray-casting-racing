@@ -18,7 +18,7 @@ public class VisionPanel extends JPanel {
     }
 
     private double[] transform(double[] distances) {
-        return Arrays.stream(distances).map(distance -> Main.VIEW_MAX * focal / (distance + focal)).toArray();
+        return Arrays.stream(distances).map(distance -> Main.PANEL_HEIGHT * focal / (distance + focal)).toArray();
     }
 
     public void setHeightsFromDistances(double[] distances) {

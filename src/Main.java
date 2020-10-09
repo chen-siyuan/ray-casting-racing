@@ -13,9 +13,7 @@ public class Main {
     public static final int PANEL_HEIGHT = 400;
     public static final int OBSERVER_RAYS = 241;
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
-    public static final double VIEW_MAX = 400.;
-    public static final double VIEW_FOCAL = 0.5;
-    public static final double MAP_OBSERVER_LENGTH = 25.;
+    public static final double CURSOR_SIZE = 25.;
 
     // TODO: 9/17/20 explore changing focal length 
     // TODO: 9/18/20 create more maps
