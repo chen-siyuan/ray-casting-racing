@@ -38,6 +38,8 @@ A Senior Year Computer Science I.S. Project.
 |&#8595;|Boost backward|
 |&#8592;|Boost counterclockwise|
 |&#8594;|Boost clockwise|
+|`[`|Decrease focal length|
+|`]`|Increase focal length|
 
 ### Map control
 
