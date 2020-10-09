@@ -47,6 +47,8 @@ A Senior Year Computer Science I.S. Project.
 |:---:|:---|
 |`-`|Zoom out|
 |`=`|Zoom in|
+|`9`|Scale out|
+|`0`|Scale in|
 |`\`|Toggle mode|
 |`[space]`|Reset camera|
 
