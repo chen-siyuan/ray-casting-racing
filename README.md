@@ -10,7 +10,7 @@ A Senior Year Computer Science I.S. Project.
 
 ### Basic components
 
-**The observer** has vision and can move and turn.
+**The observer** has vision and can move and turn. The motion system is based on a **bicycle model**.
 
 **The map** consists of edges and can be imported through Tikz.
 
