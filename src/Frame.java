@@ -2,14 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Frame extends JFrame implements Runnable {
+
+    private static final Map<String, Integer> codeToIndex = new HashMap<>();
+    private static final Map<Integer, Integer> keyToIndex = new HashMap<>();
+    private static final Set<Integer> singlePressKeys = new HashSet<>(Arrays.asList(
+            KeyEvent.VK_BACK_SLASH, KeyEvent.VK_SPACE
+    ));
 
     private final VisionPanel visionPanel;
     private final MapPanel mapPanel;
@@ -18,8 +21,6 @@ public class Frame extends JFrame implements Runnable {
     private final Observer observer;
     private final Body body;
 
-    private Map<String, Integer> codeToIndex;
-    private Map<Integer, Integer> keyToIndex;
     private boolean[] status;
 
     // TODO: 10/3/20 take a look at drifting
@@ -49,6 +50,8 @@ public class Frame extends JFrame implements Runnable {
     private void initStatus() {
 
         int n = 16;
+        status = new boolean[n];
+
         String[] codes = new String[]{
                 "forward", "backward", "counterclockwise", "clockwise",
                 "boostForward", "boostBackward", "boostCounterclockwise", "boostClockwise",
@@ -61,10 +64,6 @@ public class Frame extends JFrame implements Runnable {
                 KeyEvent.VK_MINUS, KeyEvent.VK_EQUALS, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_SPACE,
                 KeyEvent.VK_OPEN_BRACKET, KeyEvent.VK_CLOSE_BRACKET, KeyEvent.VK_9, KeyEvent.VK_0
         };
-
-        codeToIndex = new HashMap<>();
-        keyToIndex = new HashMap<>();
-        status = new boolean[n];
 
         IntStream.range(0, n).forEach(i -> {
             codeToIndex.put(codes[i], i);
@@ -118,7 +117,8 @@ public class Frame extends JFrame implements Runnable {
             @Override
             public void keyReleased(KeyEvent e) {
                 Integer index;
-                if((index = keyToIndex.get(e.getExtendedKeyCode())) != null) status[index] = false;
+                if((index = keyToIndex.get(e.getExtendedKeyCode())) != null
+                        && !singlePressKeys.contains(index)) status[index] = false;
             }
         });
 
@@ -152,7 +152,13 @@ public class Frame extends JFrame implements Runnable {
             body.updateTurn(turn.get());
 
             if(status[codeToIndex.get("mapOut")] != status[codeToIndex.get("mapIn")])
-                body.setScale(status[codeToIndex.get("mapOut")] ? 9. / 10. : 10. / 9.);
+                if(status[codeToIndex.get("mapOut")]) {
+                    body.setScale(9. / 10.);
+                    mapPanel.setZoom(10. / 9.);
+                } else {
+                    body.setScale(10. / 9.);
+                    mapPanel.setZoom(9. / 10.);
+                }
 
             body.update();
 
@@ -171,11 +177,11 @@ public class Frame extends JFrame implements Runnable {
 
             if(status[codeToIndex.get("zoomOut")] != status[codeToIndex.get("zoomIn")])
                 mapPanel.setZoom(status[codeToIndex.get("zoomOut")] ? 9. / 10. : 10. / 9.);
+
             if(status[codeToIndex.get("reset")])
                 mapPanel.setCamera();
             if(status[codeToIndex.get("mode")])
                 mapPanel.toggleMode();
-
             status[codeToIndex.get("reset")] = false;
             status[codeToIndex.get("mode")] = false;
 
