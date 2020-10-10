@@ -7,19 +7,19 @@ import java.util.Map;
 
 public class PaletteGenerator {
 
+    public static void main(String[] args) throws FileNotFoundException {
+        PaletteGenerator pg = new PaletteGenerator("counterstrike", "2020-10-09T21:00:45.430Z");
+        pg.setVision(53, 69, 53);
+        pg.setMap(224, 194, 163);
+        pg.setControl(192, 192, 192);
+        pg.generatePalette();
+    }
+
     private final String name;
     private final String dateCreated;
     private final int[] vision;
     private final int[] map;
     private final int[] control;
-
-    public static void main() throws FileNotFoundException {
-        PaletteGenerator pg = new PaletteGenerator("counterstrike", "2020-10-09T21:00:45.430Z");
-        pg.setVision(53, 69, 53);
-        pg.setMap(224, 194, 163);
-        pg.setControl(192, 192, 192);
-        pg.writeJSON();
-    }
 
     public PaletteGenerator(String _name, String _dateCreated) {
         name = _name;
@@ -47,11 +47,9 @@ public class PaletteGenerator {
         control[2] = b;
     }
 
-    public void writeJSON() throws FileNotFoundException {
+    public void generatePalette() throws FileNotFoundException {
 
         JSONObject palette = new JSONObject();
-
-        palette.put("name", name);
         palette.put("dateCreated", dateCreated);
 
         Map<String, Integer> visionMap = new LinkedHashMap<>();

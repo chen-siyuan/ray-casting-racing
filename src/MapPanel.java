@@ -12,9 +12,9 @@ public class MapPanel extends JPanel {
     private double scale;
     private boolean mode;
 
-    public MapPanel() {
+    public MapPanel(int[] color) {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
-        setBackground(new Color(224, 194, 163));
+        setBackground(new Color(color[0], color[1], color[2]));
         cameraPosition = new Point(0., 0.);
         cameraDirection = new Angle(Math.PI * (0. / 180.));
         scale = 25.;

@@ -7,9 +7,9 @@ public class VisionPanel extends JPanel {
     private double focal;
     private double[] heights;
 
-    public VisionPanel() {
+    public VisionPanel(int[] color) {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH * 2, Main.PANEL_HEIGHT));
-        setBackground(new Color(53, 69, 53));
+        setBackground(new Color(color[0], color[1], color[2]));
         focal = 1.;
     }
 

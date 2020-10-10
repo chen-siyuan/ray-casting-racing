@@ -3,9 +3,9 @@ import java.awt.*;
 
 public class ControlPanel extends JPanel {
 
-    public ControlPanel() {
+    public ControlPanel(int[] color) {
         setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
-        setBackground(new Color(192, 192, 192));
+        setBackground(new Color(color[0], color[1], color[2]));
     }
 
     // TODO: 10/3/20 add wheel and speed animation

@@ -66,13 +66,16 @@ public class Main {
 
         EventQueue.invokeLater(() -> {
 
-            Frame frame = new Frame();
+            Frame frame = null;
 
             try {
+                frame = new Frame();
                 frame.getMap().addAll(readMap("room.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            assert frame != null;
 
             frame.getObserver().setPosition(new Point(0, 0));
             frame.getObserver().setDirection(new Angle(Math.PI * (0. / 180.)));

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -25,11 +26,18 @@ public class Frame extends JFrame implements Runnable {
 
     // TODO: 10/3/20 take a look at drifting
 
-    public Frame() {
+    public Frame() throws IOException {
+        this("counterstrike");
+    }
 
-        visionPanel = new VisionPanel();
-        mapPanel = new MapPanel();
-        controlPanel = new ControlPanel();
+    public Frame(String paletteName) throws IOException {
+
+        PaletteParser palette = new PaletteParser(paletteName);
+        palette.parsePalette();
+
+        visionPanel = new VisionPanel(palette.getVision());
+        mapPanel = new MapPanel(palette.getMap());
+        controlPanel = new ControlPanel(palette.getControl());
 
         map = new HashSet<>();
         observer = new Observer(Main.OBSERVER_RAYS, Main.OBSERVER_SPAN);
