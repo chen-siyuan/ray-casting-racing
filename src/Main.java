@@ -69,7 +69,7 @@ public class Main {
             Frame frame = new Frame();
 
             try {
-                frame.getMap().addAll(readMap("pomegranate.txt"));
+                frame.getMap().addAll(readMap("room.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
