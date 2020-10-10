@@ -8,10 +8,10 @@ import java.util.Map;
 public class PaletteGenerator {
 
     public static void main(String[] args) throws FileNotFoundException {
-        PaletteGenerator pg = new PaletteGenerator("counterstrike", "2020-10-09T21:00:45.430Z");
-        pg.setVision(53, 69, 53);
-        pg.setMap(224, 194, 163);
-        pg.setControl(192, 192, 192);
+        PaletteGenerator pg = new PaletteGenerator("greyscale", "2020-10-09T21:59:50.949Z");
+        pg.setVision(204, 204, 204);
+        pg.setMap(153, 153, 153);
+        pg.setControl(102, 102, 102);
         pg.generatePalette();
     }
 

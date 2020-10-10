@@ -6,10 +6,8 @@ import java.io.IOException;
 
 public class PaletteParser {
 
-    public static void main(String[] args) throws IOException {
-        PaletteParser pp = new PaletteParser("counterstrike");
-        pp.parsePalette();
-    }
+    // TODO: 10/9/20 add more color options 
+    // TODO: 10/9/20 add more customizable area
 
     private final String name;
     private String dateCreated;
