@@ -69,8 +69,8 @@ public class Main {
             Frame frame = null;
 
             try {
-                frame = new Frame("counterstrike");
-                frame.getMap().addAll(readMap("room.txt"));
+                frame = new Frame("greyscale");
+                frame.getMap().addAll(readMap("rainbow.txt"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
