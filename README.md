@@ -4,7 +4,8 @@ A Senior Year Computer Science I.S. Project.
 
 ## Screenshots
 
-![Screenshot](assets/screen.png)
+![Screenshot](assets/screen1.png)
+![Screenshot](assets/screen2.png)
 
 ## Features
 
