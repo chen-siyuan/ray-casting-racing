@@ -1,6 +1,7 @@
 # Ray Casting Racing Game
 
-A Senior Year Computer Science I.S. Project.
+This is my senior year independent study on ray casting conducted
+from September to December 2020.
 
 ## Screenshots
 
