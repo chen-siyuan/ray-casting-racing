@@ -1,4 +1,4 @@
-# Ray-racing
+# Ray Casting Racing Game
 
 A Senior Year Computer Science I.S. Project.
 

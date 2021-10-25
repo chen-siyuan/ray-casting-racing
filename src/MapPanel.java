@@ -4,96 +4,94 @@ import java.awt.geom.AffineTransform;
 import java.util.Set;
 
 public class MapPanel extends JPanel {
+  private Set<Edge> map;
+  private Observer observer;
+  private Point cameraPosition;
+  private Angle cameraDirection;
+  private double scale;
+  private boolean mode;
 
-    private Set<Edge> map;
-    private Observer observer;
-    private Point cameraPosition;
-    private Angle cameraDirection;
-    private double scale;
-    private boolean mode;
+  public MapPanel(int[] color) {
+    setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
+    setBackground(new Color(color[0], color[1], color[2]));
+    cameraPosition = new Point(0., 0.);
+    cameraDirection = new Angle(Math.PI * (0. / 180.));
+    scale = 25.;
+    mode = false;
+  }
 
-    public MapPanel(int[] color) {
-        setPreferredSize(new Dimension(Main.PANEL_WIDTH, Main.PANEL_HEIGHT));
-        setBackground(new Color(color[0], color[1], color[2]));
-        cameraPosition = new Point(0., 0.);
-        cameraDirection = new Angle(Math.PI * (0. / 180.));
-        scale = 25.;
-        mode = false;
-    }
+  public void setMap(Set<Edge> _map) {
+    map = _map;
+  }
 
-    public void setMap(Set<Edge> _map) {
-        map = _map;
-    }
+  public void setObserver(Observer _observer) {
+    observer = _observer;
+  }
 
-    public void setObserver(Observer _observer) {
-        observer = _observer;
-    }
+  public void setZoom(double ratio) {
+    scale *= ratio;
+  }
 
-    public void setZoom(double ratio) {
-        scale *= ratio;
-    }
+  public void toggleMode() {
+    mode = !mode;
+  }
 
-    public void toggleMode() {
-        mode = !mode;
-    }
+  public void setCamera() {
+    cameraPosition = observer.getPosition();
+    cameraDirection = observer.getDirection();
+  }
 
-    public void setCamera() {
-        cameraPosition = observer.getPosition();
-        cameraDirection = observer.getDirection();
-    }
+  @Override
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2 = (Graphics2D) g;
+    drawObserver(g2);
+    drawMap(g2);
+  }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        drawObserver(g2);
-        drawMap(g2);
-    }
+  private void drawLine(Graphics2D g2, Point left, Point right) {
+    g2.drawLine(
+        (int) Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * scale),
+        (int) Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * scale));
+  }
 
-    private void drawLine(Graphics2D g2, Point left, Point right) {
-        g2.drawLine(
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + left.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + left.getY() * scale),
-                (int) Math.round(0.5 * Main.PANEL_WIDTH + right.getX() * scale), (int) Math.round(0.5 * Main.PANEL_HEIGHT + right.getY() * scale));
-    }
+  private void drawObserver(Graphics2D g2) {
+    AffineTransform at = g2.getTransform();
 
-    private void drawObserver(Graphics2D g2) {
+    g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
+    g2.setStroke(new BasicStroke(3));
 
-        AffineTransform at = g2.getTransform();
+    Angle span = observer.getSpan();
+    Point position = mode ? cameraPosition : observer.getPosition();
+    Angle direction = mode ? cameraDirection: observer.getDirection();
+    Point center = Point.coordinateTransform(position, direction, observer.getPosition());
 
-        g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
-        g2.setStroke(new BasicStroke(3));
+    drawLine(g2, center, Point.coordinateTransform(position, direction,
+        observer.getPosition().forward(observer.getDirection(), Main.CURSOR_SIZE / scale)));
+    drawLine(g2, center, Point.coordinateTransform(position, direction,
+        observer.getPosition().forward(observer.getDirection().subtract(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
+    drawLine(g2, center, Point.coordinateTransform(position, direction,
+        observer.getPosition().forward(observer.getDirection().add(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
 
-        Angle span = observer.getSpan();
-        Point position = mode ? cameraPosition : observer.getPosition();
-        Angle direction = mode ? cameraDirection: observer.getDirection();
-        Point center = Point.coordinateTransform(position, direction, observer.getPosition());
+    g2.setTransform(at);
 
-        drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection(), Main.CURSOR_SIZE / scale)));
-        drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection().subtract(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
-        drawLine(g2, center, Point.coordinateTransform(position, direction,
-                observer.getPosition().forward(observer.getDirection().add(span.scale(0.5)), Main.CURSOR_SIZE / scale)));
+  }
 
-        g2.setTransform(at);
+  private void drawMap(Graphics2D g2) {
 
-    }
+    AffineTransform at = g2.getTransform();
 
-    private void drawMap(Graphics2D g2) {
+    Point position = mode ? cameraPosition : observer.getPosition();
+    Angle direction = mode ? cameraDirection : observer.getDirection();
 
-        AffineTransform at = g2.getTransform();
+    g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
 
-        Point position = mode ? cameraPosition : observer.getPosition();
-        Angle direction = mode ? cameraDirection : observer.getDirection();
+    for(Edge edge: map) drawLine(g2,
+        Point.coordinateTransform(position, direction, edge.getLeft()),
+        Point.coordinateTransform(position, direction, edge.getRight()));
 
-        g2.rotate(Math.PI * (270. / 180.), (int)Math.round(0.5 * Main.PANEL_WIDTH), (int)Math.round(0.5 * Main.PANEL_HEIGHT));
+    g2.setTransform(at);
 
-        for(Edge edge: map) drawLine(g2,
-                Point.coordinateTransform(position, direction, edge.getLeft()),
-                Point.coordinateTransform(position, direction, edge.getRight()));
-
-        g2.setTransform(at);
-
-    }
+  }
 
 }
