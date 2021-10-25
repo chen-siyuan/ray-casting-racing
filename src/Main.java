@@ -15,8 +15,6 @@ public class Main {
     public static final Angle OBSERVER_SPAN = new Angle(Math.PI * (120. / 180.));
     public static final double CURSOR_SIZE = 25.;
 
-    // TODO: 9/18/20 create more maps
-
     public static Set<Edge> drawPolygon(Point... points) {
 
         Set<Edge> res = new HashSet<>();

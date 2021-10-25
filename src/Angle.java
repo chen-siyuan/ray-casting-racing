@@ -1,7 +1,7 @@
 public class Angle {
 
     public static double standardize(double value) {
-        return ((value % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      return ((value % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
     }
 
     private final double value;

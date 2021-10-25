@@ -16,7 +16,7 @@ public class PaletteGenerator {
     }
 
     private final String name;
-    private final String dateCreated;
+    private final String dateCreated
     private final int[] vision;
     private final int[] map;
     private final int[] control;
