@@ -12,7 +12,8 @@ from September to December 2020.
 
 ### Basic components
 
-**The observer** has vision and can move and turn. The motion system is based on a **bicycle model**.
+**The observer** has vision and can move and turn.
+The motion system is based on a **bicycle model**.
 
 **The map** consists of edges and can be imported through Tikz.
 
